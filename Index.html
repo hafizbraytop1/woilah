@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Perkalian, Pembagian, dan Pengurangan</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #ffffff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      text-align: center;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      max-width: 420px;
+      width: 92%;
+    }
+
+    h1 { margin: 0 0 12px; font-size: 20px; }
+    p { margin: 0 0 18px; color: #444; }
+
+    .row { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+    input[type="number"] {
+      width: 120px;
+      padding: 8px 10px;
+      font-size: 16px;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .buttons { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+    button {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: #111;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1 1 30%;
+      min-width: 100px;
+    }
+
+    .result {
+      margin-top: 14px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .hint { margin-top: 8px; color: #666; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <h1>yang buat hafiz</h1>
+    <p>masokek angkenye udah itu ko pilih nak perkalian atau pembagia, pengurangan</p>
+
+    <div class="row" aria-label="input-operasi">
+      <input id="a" type="number" placeholder="Angka 1" />
+      <input id="b" type="number" placeholder="Angka 2" />
+    </div>
+
+    <div class="buttons">
+      <button id="mulBtn">Kalikan</button>
+      <button id="divBtn">Bagi</button>
+      <button id="subBtn">Kurangi</button>
+    </div>
+
+    <div class="result" id="result" aria-live="polite"></div>
+    <div class="hint">Tekan Enter Buat Hitung e</div>
+  </div>
+
+  <script>
+    const aEl = document.getElementById('a');
+    const bEl = document.getElementById('b');
+    const mulBtn = document.getElementById('mulBtn');
+    const divBtn = document.getElementById('divBtn');
+    const subBtn = document.getElementById('subBtn');
+    const out = document.getElementById('result');
+
+    function formatNumber(n) {
+      return Number.isFinite(n) ? n.toString() : String(n);
+    }
+
+    function multiplyAndShow() {
+      const a = parseFloat(aEl.value);
+      const b = parseFloat(bEl.value);
+
+      if (Number.isNaN(a) || Number.isNaN(b)) {
+        out.textContent = 'Mohon masukkan kedua angka.';
+        out.style.color = '#b00';
+        return;
+      }
+
+      const result = a * b;
+      out.style.color = '#111';
+      out.textContent = `${formatNumber(a)} × ${formatNumber(b)} = ${formatNumber(result)}`;
+    }
+
+    function divideAndShow() {
+      const a = parseFloat(aEl.value);
+      const b = parseFloat(bEl.value);
+
+      if (Number.isNaN(a) || Number.isNaN(b)) {
+        out.textContent = 'Mohon masukkan kedua angka.';
+        out.style.color = '#b00';
+        return;
+      }
+      if (b === 0) {
+        out.textContent = 'Tidak dapat membagi dengan nol!';
+        out.style.color = '#b00';
+        return;
+      }
+
+      const result = a / b;
+      out.style.color = '#111';
+      out.textContent = `${formatNumber(a)} ÷ ${formatNumber(b)} = ${formatNumber(result)}`;
+    }
+
+    function subtractAndShow() {
+      const a = parseFloat(aEl.value);
+      const b = parseFloat(bEl.value);
+
+      if (Number.isNaN(a) || Number.isNaN(b)) {
+        out.textContent = 'Mohon masukkan kedua angka.';
+        out.style.color = '#b00';
+        return;
+      }
+
+      const result = a - b;
+      out.style.color = '#111';
+      out.textContent = `${formatNumber(a)} − ${formatNumber(b)} = ${formatNumber(result)}`;
+    }
+
+    mulBtn.addEventListener('click', multiplyAndShow);
+    divBtn.addEventListener('click', divideAndShow);
+    subBtn.addEventListener('click', subtractAndShow);
+
+    [aEl, bEl].forEach(el => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') multiplyAndShow();
+      });
+    });
+
+    aEl.value = '';
+    bEl.value = '';
+  </script>
+</body>
+</html>
